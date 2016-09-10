@@ -16,6 +16,7 @@ const contentLength = () => {
 
 const body = () => {
   return async function(ctx,next) {
+    await next()
     const {path} = ctx
     if(path !== '/') {
       return
@@ -44,26 +45,7 @@ const responseTime = () => {
   }
 }
 
-const firstMiddleware = async (ctx,next) => {
-  console.log('Going Down')
-  await next()
-  console.log('Going More Up')
-}
-
-const secondMiddleware = async (ctx,next) => {
-  console.log('Going More Down')
-  await next()
-  console.log('Going Up')
-}
-
-const responseMiddleware = async (ctx) => {
-  ctx.body = 'Hello World!'
-}
-
 app.use(responseTime())
-app.use(firstMiddleware)
-app.use(secondMiddleware)
+app.use(body())
 app.use(logger())
-app.use(responseMiddleware)
-
 app.listen(3000)
