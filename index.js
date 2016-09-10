@@ -1,9 +1,45 @@
 //import 'babel-polyfill'
 import Koa from 'koa'
+import kompose from 'koa-compose'
 
 const app = new Koa()
 
+const home = async function home (ctx,next) {
+  if(ctx.path === '/') {
+    ctx.body = 'Hello World!'
+  } else {
+    await next()
+  }
+}
 
+const random = async function random (ctx,next) {
+  console.log(ctx)
+  if(ctx.path === '/random') {
+    console.log('Inside random function')
+    ctx.body = Math.floor(Math.random() * 10)
+  } else {
+    await next()
+  }
+}
+
+const backwards = async function backwards (ctx,next) {
+  if(ctx.path === '/backwards') {
+    ctx.body = 'sdrawkcab'
+  } else {
+    await next()
+  }
+}
+
+const pi = async function pi (ctx,next) {
+  if(ctx.path === '/pi') {
+    ctx.body = String(Math.PI)
+  } else {
+    await next()
+  }
+}
+
+const body2 = kompose([random,backwards,pi,home])
+console.log(body2)
 const contentLength = () => {
   return async function(ctx,next) {
     await next()
@@ -23,6 +59,8 @@ const body = () => {
     ctx.body = 'Hello World!'
   }
 }
+
+
 
 const logger = (format) => {
   format = format || "':method' ':url'"
