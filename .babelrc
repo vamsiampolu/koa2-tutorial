@@ -1,6 +1,6 @@
 {
   "presets":[
     "es2015",
-    "stagge-0"
+    "stage-0"
   ]
 }
