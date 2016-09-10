@@ -16,7 +16,6 @@ const contentLength = () => {
 
 const body = () => {
   return async function(ctx,next) {
-    await next()
     const {path} = ctx
     if(path !== '/') {
       return
@@ -46,6 +45,6 @@ const responseTime = () => {
 }
 
 app.use(responseTime())
-app.use(body())
 app.use(logger())
+app.use(body())
 app.listen(3000)
